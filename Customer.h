@@ -12,8 +12,16 @@ as well as its own checking and overdraft fees.
 */
 class Customer // FIXME: Complete the implementation!
 {
-
+private:
+	double interest_rate;
+	string name;
+	string address;
+	string telephone;
+	int age;
+	
+public:
+	Customer ();
+	Customer (string n, string ad, string phone, int age);
+	string get_name ();
 };
-
-
 #endif
