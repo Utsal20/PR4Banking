@@ -31,19 +31,17 @@ private:
 	{
 		std::vector<int> user_accounts;
 
-		// FIXME: Find all the accounts belonging to a customer name and add it to the vector of account numbers.
+		// FIXED: Find all the accounts belonging to a customer name and add it to the vector of account numbers.
 		
 		Customer *cust = find_customer( name );
 
-
 		for(int i = 0; i < accounts.size(); i++)
 		{
-			if ( accounts[i]->get_customer() = cust	)
+			if (accounts[i]->get_customer() == cust	)
 			{
-				user_accounts.pushback(accounts[i].get_account());
+				user_accounts.push_back(accounts[i]->get_account());
 			}
 		}
-		
 		return user_accounts;
 	}
 
@@ -54,7 +52,7 @@ private:
 	*/
 	Customer *find_customer(std::string name)
 	{
-		// FIXME: Find and return the Customer object with the parameter name
+		// FIXED: Find and return the Customer object with the parameter name
 		
 		for (int i = 0; i < customers.size(); i++)
 		{
@@ -77,15 +75,16 @@ private:
 	{
 		Account *acct = NULL;
 
-		// FIXME: Factory method for creating a Account object (could be a Saving_Account or a Checking_Account).
+		// FIXED: Factory method for creating a Account object (could be a Savings_Account or a Checking_Account).
 		
 		//based on the savings and checkings account set the interest rate
 		if (account_type == "savings")
-			acct = new Saving_Account ( cust, account_id )
+			acct = new Savings_Account(cust, account_id);
 		else if (account_type == "checking")
-			acct = new Checking_Account ( cust, account_id )
+			acct = new Checking_Account(cust, account_id);
 		account_id ++;
 		
+		accounts.push_back(acct);
 		return acct;
 	}
 
@@ -123,16 +122,17 @@ public:
 	{
 		Customer *cust;
 		
-		// FIXME: Depending on the customer type, we want to create an Adult, Senior, or Student object.
+		// FIXED: Depending on the customer type, we want to create an Adult, Senior, or Student object.
 		
-		if (cust_type = "adult")
-			cust = new Adult ( name, address, telephone, age )
-		else if (cust_type = "senior")
-			cust = new Senior ( name, address, telephone, age )
-		else if (cust_type = "student")
-			cust = new Student ( name, address, telephone, age )
+		if (cust_type == "adult")
+			cust = new Adult(name, address, telephone, age);
+		else if (cust_type == "senior")
+			cust = new Senior(name, address, telephone, age);
+		else if (cust_type == "student")
+			cust = new Student(name, address, telephone, age);
 
 		customers.push_back(cust);
+		customer_id++;
 		return add_account(cust, account_type);
 	}
 
@@ -145,12 +145,11 @@ public:
 	{
 		Account *acct = get_account(acct_number);
 		if (acct) {
-			// FIXME: Deposit the amt in the account
-			
-			double current_balance = acct.get_balance();
-			acct.set_balance(current_balance + amt);
-			// not sure if this part is creating the transaction or the set_balance function creates the transaction
+			// FIXED: Deposit the amt in the account
+			acct->deposit(amt);
 		}
+		else
+			cout << "Failed!\n";
 	}
 
 	/** 
@@ -162,12 +161,11 @@ public:
 	{
 		Account *acct = get_account(acct_number);
 		if (acct) {
-			// FIXME: Withdraw the amt from the account
-			
-			double current_balance = acct.get_balance();
-			acct.set_balance(current_balance - amt);
-			// not sure if this part is creating the transaction or the set_balance function creates the transaction
+			// FIXED: Withdraw the amt from the account
+			acct->withdraw(amt);
 		}
+		else
+			cout << "Failed!\n";
 	}
 
 	/**

@@ -21,6 +21,7 @@ public:
 		this->transaction_type = type;
 		this->amount = amt;
 		this->fees = fees;
+		cout << transaction_type << " completed successfully!\n";
 	}
 
 	std::string process_tran()

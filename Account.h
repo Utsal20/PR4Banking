@@ -28,11 +28,16 @@ protected:
 	*/
 	std::string get_fees()
 	{
-		int overdraft, charge;
+		int overdraft = 0, charge = 0;
 
 		// Polymorphism: calls the correct virtual methods from the specific customer type
 		// FIXME: Get the overdraft and check charge information from this accounts customer
 
+		if (balance < 0)
+			overdraft = customer->get_overdraft_fee();
+		if (balance < 500)
+			charge = customer->get_checking_fee();
+		
 		std::stringstream ss;
 		ss << "Check Charge: " << charge << " Overdraft Fee: " << overdraft;
 		return ss.str();
@@ -47,10 +52,9 @@ protected:
 		double amt = balance*interest;
 		balance = balance + amt;
 		std::string fees = get_fees();
-		Transaction *tran = NULL;
 
-		// FIXME: Create a Transaction object and assign it to the transaction vector.
-
+		// FIXED: Create a Transaction object and assign it to the transaction vector.
+		Transaction *tran = new Transaction(account_number, "Add interest", amt, fees);
 		transactions.push_back(tran);
 	}
 
@@ -100,10 +104,13 @@ public:
 	virtual std::string to_string() {
 		std::stringstream ss; // for composing the string that describes this account
 
-		// FIXME: Add information about the customer who owns this account.
+		// FIXED: Add information about the customer who owns this account.
 		
 		ss << "  Balance: " << balance << std::endl;
 		ss << "  Account ID: " << account_number << std::endl;
+		ss << "  Name: " << customer->get_name() << std::endl;
+		ss << "  Address: " << customer->get_address() << std::endl;
+		ss << "  Telephone: " << customer->get_telephone() << std::endl;
 		return ss.str();
 	}
 
@@ -114,10 +121,9 @@ public:
 	virtual void deposit(double amt) {
 		balance += amt;
 		std::string fees = get_fees();
-		Transaction *tran = NULL;
 
-		// FIXME: Create a Transaction object and assign it to transaction vector.
-
+		// FIXED: Create a Transaction object and assign it to transaction vector.
+		Transaction *tran = new Transaction(account_number, "Deposit", amt, fees);
 		transactions.push_back(tran);
 	}
 
@@ -128,10 +134,9 @@ public:
 	virtual void withdraw(double amt) {
 		balance -= amt;
 		std::string fees = get_fees();
-		Transaction *tran = NULL;
 
-		// FIXME: Create a Transaction object and assign it to tran.
-
+		// FIXED: Create a Transaction object and assign it to tran.
+		Transaction *tran = new Transaction(account_number, "Withdraw", amt, fees);
 		transactions.push_back(tran);
 	}
 
@@ -140,6 +145,31 @@ public:
 
 };
 
+class Checking_Account : public Account {
+public:
+	Checking_Account(Customer *cust, int id) : Account(cust, id){}
 
+	void add_interest() {
+		double interest = customer->get_checking_interest();
+		double amt = balance*interest;
+		balance = balance + amt;
+		std::string fees = get_fees();
+		Transaction *tran = new Transaction(account_number, "Add fixed interest", amt, fees);
+		transactions.push_back(tran);
+	}
+};
 
+class Savings_Account : public Account {
+public:
+	Savings_Account(Customer *cust, int id) : Account(cust, id) {}
+
+	void add_interest() {
+		double interest = customer->get_savings_interest();
+		double amt = balance*interest;
+		balance = balance + amt;
+		std::string fees = get_fees();
+		Transaction *tran = new Transaction(account_number, "Add fixed interest", amt, fees);
+		transactions.push_back(tran);
+	}
+};
 #endif
