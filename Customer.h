@@ -10,7 +10,7 @@ as well as its own checking and overdraft fees.
 
 @author: Ed Walker
 */
-class Customer // FIXME: Complete the implementation!
+class Customer // FIXED: Complete the implementation!
 {
 protected:
 	double checking_interest_rate;
@@ -23,26 +23,39 @@ protected:
 	int age;
 	
 public:
+	// default constructor
 	Customer (){}
+	// sets up a new customer and initializes the name, address, telephone and age
 	Customer (string n, string ad, string phone, int _age) : name(n), address(ad), telephone(phone), age(_age){}
+	// returns customer name
 	string get_name() {
 		return name;
 	}
+	// returns customer address
 	string get_address() {
 		return address;
 	}
+	// returns customer telephone number
 	string get_telephone() {
 		return telephone;
 	}
+	// returns customer age
+	int get_age() {
+		return age;
+	}
+	// returns checking_fee for a checkings account
 	virtual double get_checking_fee() {
 		return checking_fee;
 	}
+	// returns overdraft_fee
 	virtual double get_overdraft_fee() {
 		return overdraft_fee;
 	}
+	// returns interest rate for savings account
 	virtual double get_savings_interest() {
 		return savings_interest_rate;
 	}
+	// returns interest rate for checking account
 	virtual double get_checking_interest() {
 		return checking_interest_rate;
 	}

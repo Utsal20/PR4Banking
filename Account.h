@@ -31,10 +31,11 @@ protected:
 		int overdraft = 0, charge = 0;
 
 		// Polymorphism: calls the correct virtual methods from the specific customer type
-		// FIXME: Get the overdraft and check charge information from this accounts customer
+		// FIXED: Get the overdraft and check charge information from this accounts customer
 
 		if (balance < 0)
 			overdraft = customer->get_overdraft_fee();
+		// created my own version of implementation for checking fee. It made sense to do it this way
 		if (balance < 500)
 			charge = customer->get_checking_fee();
 		
@@ -111,6 +112,7 @@ public:
 		ss << "  Name: " << customer->get_name() << std::endl;
 		ss << "  Address: " << customer->get_address() << std::endl;
 		ss << "  Telephone: " << customer->get_telephone() << std::endl;
+		ss << "  Age: " << customer->get_age() << std::endl;
 		return ss.str();
 	}
 
@@ -149,6 +151,7 @@ class Checking_Account : public Account {
 public:
 	Checking_Account(Customer *cust, int id) : Account(cust, id){}
 
+	// definition to the virual add_interest() function defined in the base class
 	void add_interest() {
 		double interest = customer->get_checking_interest();
 		double amt = balance*interest;
@@ -163,6 +166,7 @@ class Savings_Account : public Account {
 public:
 	Savings_Account(Customer *cust, int id) : Account(cust, id) {}
 
+	// definition to the virual add_interest() function defined in the base class
 	void add_interest() {
 		double interest = customer->get_savings_interest();
 		double amt = balance*interest;
